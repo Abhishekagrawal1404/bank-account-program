@@ -1,0 +1,129 @@
+import java.util.Scanner;
+
+public class BankAccount {
+    
+    private String accountNumber;
+    private String accountHolderName;
+    private double balance;
+    private double interestRate;
+
+    // Constructor
+    public BankAccount(String accountNumber, String accountHolderName, double balance, double interestRate) {
+        this.accountNumber = accountNumber;
+        this.accountHolderName = accountHolderName;
+        this.balance = balance;
+        this.interestRate = interestRate;
+    }
+
+    // Getter methods
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public String getAccountHolderName() {
+        return accountHolderName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    // Setter methods
+    public void setAccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
+    public void setInterestRate(double interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    // Other methods
+    public void deposit(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid deposit amount.");
+            return;
+        }
+        balance += amount;
+        System.out.println("Deposit of $" + amount + " successful.");
+    }
+
+    public void withdraw(double amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid withdrawal amount.");
+            return;
+        }
+        if (balance - amount < 0) {
+            System.out.println("Insufficient balance.");
+            return;
+        }
+        balance -= amount;
+        System.out.println("Withdrawal of $" + amount + " successful.");
+    }
+
+    public void addInterest() {
+        double interest = balance * interestRate;
+        balance += interest;
+        System.out.println("Interest of $" + interest + " added. New balance is $" + balance + ".");
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Get initial account details
+        System.out.println("Enter account number:");
+        String accountNumber = scanner.nextLine();
+
+        System.out.println("Enter account holder name:");
+        String accountHolderName = scanner.nextLine();
+
+        System.out.println("Enter initial balance:");
+        double balance = scanner.nextDouble();
+
+        System.out.println("Enter interest rate:");
+        double interestRate = scanner.nextDouble();
+
+        // Create BankAccount object
+        BankAccount account = new BankAccount(accountNumber, accountHolderName, balance, interestRate);
+
+        // Perform operations
+        while (true) {
+            System.out.println("\nEnter operation to perform:");
+            System.out.println("1 - Deposit");
+            System.out.println("2 - Withdraw");
+            System.out.println("3 - Add Interest");
+            System.out.println("4 - Check Balance");
+            System.out.println("5 - Exit");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.println("Enter deposit amount:");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.println("Enter withdrawal amount:");
+                    double withdrawalAmount = scanner.nextDouble();
+                    account.withdraw(withdrawalAmount);
+                    break;
+                case 3:
+                    account.addInterest();
+                    break;
+                case 4:
+                    System.out.println("Account balance: $" + account.getBalance());
+                    break;
+                case 5:
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+        }
+    }
+}
